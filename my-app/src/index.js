@@ -42,14 +42,23 @@ class Square extends React.Component {
         super(props);
         this.state = {
             squares: Array(9).fill(null),
+            xMovesNext: true,
         };
     }
 
     renderSquare(i) {
+        /*
+        if (this.state.squares[i] === 'X')
+        this.setState(mcol, {'background-color':'yellow','color':'red'})
+        else if (this.state.squares[i] === 'O')
+        this.setState(mcol, {'background-color':'lightblue','color':'black'})
+        else 
+        this.setState(mcol, {'background-color':'gray'})
+        */
         return (
             <Square
               x123value={this.state.squares[i]}
-              mcolor = {this.state.squares[i] === 'X' ? {'background-color':'yellow'} : {'background-color':'gray'}}
+              //mcolor = {this.state.mcol}
               onClick={() => this.handleClick(i)}
             />
           );
@@ -57,11 +66,12 @@ class Square extends React.Component {
   
     handleClick(i) {
         const squares = this.state.squares.slice();
-        if (squares[i] === 'X')
-        { squares[i] = 'Y'}
-        else
-        {squares[i] = 'X';}
-        this.setState({squares: squares});
+        squares[i] = this.state.xMovesNext ? 'X' : 'O';
+
+        this.setState({
+            squares: squares,
+            xMovesNext: !this.state.xMovesNext,
+        });
       }
 
     render() {
