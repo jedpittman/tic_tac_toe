@@ -17,11 +17,11 @@ function Square(props){
     renderSquare(i) {
         let mcol = ""
         if (this.props.squares[i] === 'X')
-        mcol = {'background-color':'yellow','color':'red'}
+        mcol = {'backgroundColor':'yellow','color':'red'}
         else if (this.props.squares[i] === 'O')
-        mcol = {'background-color':'lightblue','color':'black'}
+        mcol = {'backgroundColor':'lightblue','color':'black'}
         else 
-        mcol = {'background-color':'gray'}
+        mcol = {'backgroundColor':'gray'}
         
         return (
             <Square
@@ -31,16 +31,6 @@ function Square(props){
             />
           );
     }
-  
-    handleClick(i) {
-        const squares = this.state.squares.slice();
-        squares[i] = this.state.xMovesNext ? 'X' : 'O';
-
-        this.setState({
-            squares: squares,
-            xMovesNext: !this.state.xMovesNext,
-        });
-      }
 
     render() {
         return (
@@ -73,20 +63,20 @@ function Square(props){
             squares: Array(9).fill(null),
           }],
           xMovesNext: true,
-          stepNumber: 0,
+          stepNumber: 0
         };
       }
 
       jumpTo(step) {
         this.setState({
           stepNumber: step,
-          xMovesNext: (step % 2) === 0,
+          xMovesNext: (step % 2) === 0
         });
       }
 
       handleClick(i) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
-        const current = history[this.state.stepNumber];
+        const current = history[history.length-1];
         const squares = current.squares.slice();
         if (calculateWinner(squares) || squares[i]) {
           return;
@@ -104,9 +94,8 @@ function Square(props){
     
       render() {
         const history = this.state.history;
-        const current = history[history.length - 1];
+        const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
-        const nummoves = isNaN(history.length) ? 0 : history.length
     
         const moves = history.map((step, move) => {
           const desc = move ?
@@ -121,9 +110,9 @@ function Square(props){
     
         let xstatus;
         if (winner) {
-          xstatus = 'Move # '+ nummoves + ', Winner: ' + winner;
+          xstatus = 'Move # '+ this.state.stepNumber + ', Winner: ' + winner;
         } else {
-          xstatus = 'Move # '+ nummoves + ', Next player: ' + (this.state.xMovesNext ? 'X' : 'O');
+          xstatus = 'Move # '+ this.state.stepNumber + ', Next player: ' + (this.state.xMovesNext ? 'X' : 'O');
         }
     
         return (
